@@ -4,47 +4,35 @@ import numpy as np
 import neat, os, pickle
 
 def eval_genomes(genomes, config):
-    # This will run each simulation and evaluate the genomes of 1 population
+    # Takes in set of genomes. For each genome, run the entire test then return its fitness
     
+    # First set the environment
+    env = gym.make('CartPole-v1')
 
-    nets = []
-    ge = []
-    envs = []
-    obvs = []
-
-    # Create all NNs from genomes and assign them to new Cart Pole (random inital state)
+    # Test setup and execution for each genome
     for genome_id, genome in genomes:
-        genome.fitness = 0
-        net = neat.nn.FeedForwardNetwork.create(genome, config)
-        nets.append(net)
-        ge.append(genome)
-        env = gym.make('CartPole-v1')
-        ob, _ = env.reset()
-        envs.append(env)
-        obvs.append(ob)
-
-    while len(envs) > 0:
-        for g, nn, env, observation  in zip(ge, nets, envs, obvs):
-            # First feed observation into neural net to get an output
-            output = nn.activate(observation)
-            # Set action based on nn output
-            if output[0] > 0: 
+        # Test setup
+        fitness = 0 # Set/reset fitness
+        net = neat.nn.FeedForwardNetwork.create(genome, config) # Create NN from genome
+        observation, _ = env.reset()
+        
+        # Test Execution
+        while 1:
+            output = net.activate(observation) # Let NN determine next action
+            if output[0] >= 0: # Convert NN output to environment action
                 action = 1
             else:
                 action = 0
-            
-            # Move environment forward one step
+             
+            # Move environment forward one step based on NN action
             observation, reward, terminated, info, _ = env.step(action)
+            fitness += reward # Add reward since one step was taken
 
-            if terminated: # Cart failed to balance poll - remove from all lists
-                ge.pop(envs.index(env))
-                nets.pop(envs.index(env))
-                obvs.pop(envs.index(env))
-                env.close()
-                envs.pop(envs.index(env)) 
-                
-            else:
-                g.fitness += reward
+            if terminated: # Cart failed to balance poll - Reset environment for next genome and end test
+                env.reset() # Fail-safe
+                break
+        
+        genome.fitness = fitness # Set fitness to genome fitness
 
 
 def run(config_file):  

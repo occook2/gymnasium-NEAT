@@ -7,7 +7,7 @@ def eval_genomes(genomes, config):
     # Takes in set of genomes. For each genome, run the entire test then return its fitness
     
     # First set the environment
-    env = gym.make('MountainCar-v0')
+    env = gym.make('Pendulum-v1')
 
     # Test setup and execution for each genome
     for genome_id, genome in genomes:
@@ -15,27 +15,22 @@ def eval_genomes(genomes, config):
         fitness = 0 # Set/reset fitness
         net = neat.nn.FeedForwardNetwork.create(genome, config) # Create NN from genome
         observation, _ = env.reset()
-
+        
         # Test Execution
         while 1:
             output = net.activate(observation) # Let NN determine next action
-            if output[0] < 0: # Convert NN output to environment action
-                action = 0
-            elif output[0] > 0:
-                action = 2
-            else:
-                action = 1
+            action = np.ndarray((1,))
+            action[0] = output[0] * 2
              
             # Move environment forward one step based on NN action
             observation, reward, terminated, truncated, _ = env.step(action)
+            fitness += reward # Reward is negative based off of theta 
 
-            fitness += reward # Add reward since one step was taken
-
-            if truncated or terminated: # Cart to   - Reset environment for next genome and end test
+            if truncated: # Cart failed to balance poll - Reset environment for next genome and end test
                 env.reset() # Fail-safe
                 break
         
-        genome.fitness = fitness # Set fitness to genome fitness 
+        genome.fitness = fitness # Set fitness to genome fitness
 
 
 def run(config_file):  
@@ -51,11 +46,11 @@ def run(config_file):
     p.add_reporter(stats)
 
     # Run for number of generations.
-    winner = p.run(eval_genomes, 100)
+    winner = p.run(eval_genomes, 500)
 
 if __name__ == '__main__':
     # Find the Config File for Neat, will be in the same folder
     local_dir = os.path.dirname(__file__)
-    config_path = os.path.join(local_dir, 'mountainCarConfig.txt')
+    config_path = os.path.join(local_dir, 'pendulum.txt')
     run(config_path)
 

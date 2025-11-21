@@ -48,20 +48,22 @@ This will install all required dependencies:
 
 ## 🚀 Usage
 
-Simply run any of the Python files to watch NEAT evolve solutions in real-time:
+### Training Models
+
+Run any of the training scripts to train NEAT on the environment. The trained model will be automatically saved as `winner.pkl` in the same directory:
 
 ```bash
 # Train on CartPole
-python cartandpole/cartandpole.py
+python cartandpole/train.py
 
 # Train on MountainCar (discrete)
-python mountainCar/mountainCar.py
+python mountainCar/train.py
 
 # Train on MountainCar (continuous)
-python mountainCar/mountainCarCont.py
+python mountainCarCont/train.py
 
 # Train on Pendulum
-python pendulum/pendulum.py
+python pendulum/train.py
 ```
 
 Each script will:
@@ -69,23 +71,56 @@ Each script will:
 2. Initialize a population of random neural networks
 3. Evolve the networks over multiple generations
 4. Display progress statistics in the terminal
-5. Return the best-performing genome (winner)
+5. **Save the best genome as `winner.pkl`** (whether it solved the environment or was the final generation)
+6. Print the winner's fitness score
+
+### Visualizing Trained Models
+
+After training, you can watch your trained model perform using the visualization scripts:
+
+```bash
+# Visualize CartPole
+python cartandpole/visualize.py
+
+# Visualize MountainCar (discrete)
+python mountainCar/visualize.py
+
+# Visualize MountainCar (continuous)
+python mountainCarCont/visualize.py
+
+# Visualize Pendulum
+python pendulum/visualize.py
+```
+
+The visualization scripts will:
+- Load the saved `winner.pkl` model
+- Run 5 episodes with rendering enabled
+- Display performance statistics for each episode
 
 ## 📁 Project Structure
 
 ```
 gymnasiumTest/
 ├── cartandpole/
-│   ├── cartandpole.py          # CartPole implementation
-│   └── cartandpoleConfig.txt   # NEAT config for CartPole
+│   ├── train.py                # CartPole training script
+│   ├── config.txt              # NEAT config for CartPole
+│   ├── visualize.py            # Visualize trained CartPole model
+│   └── winner.pkl              # Saved trained model (generated after training)
 ├── mountainCar/
-│   ├── mountainCar.py          # MountainCar (discrete) implementation
-│   ├── mountainCarConfig.txt   # NEAT config for MountainCar
-│   ├── mountainCarCont.py      # MountainCar (continuous) implementation
-│   └── mountainCarContConfig.txt # NEAT config for MountainCar Continuous
+│   ├── train.py                # MountainCar (discrete) training script
+│   ├── config.txt              # NEAT config for MountainCar
+│   ├── visualize.py            # Visualize trained MountainCar model
+│   └── winner.pkl              # Saved trained model (generated after training)
+├── mountainCarCont/
+│   ├── train.py                # MountainCar (continuous) training script
+│   ├── config.txt              # NEAT config for MountainCar Continuous
+│   ├── visualize.py            # Visualize trained MountainCar Continuous model
+│   └── winner.pkl              # Saved trained model (generated after training)
 ├── pendulum/
-│   ├── pendulum.py             # Pendulum implementation
-│   └── pendulum.txt            # NEAT config for Pendulum
+│   ├── train.py                # Pendulum training script
+│   ├── config.txt              # NEAT config for Pendulum
+│   ├── visualize.py            # Visualize trained Pendulum model
+│   └── winner.pkl              # Saved trained model (generated after training)
 ├── requirements.txt            # Python dependencies
 └── README.md                   # This file
 ```

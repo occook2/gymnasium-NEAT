@@ -52,6 +52,16 @@ def run(config_file):
 
     # Run for number of generations.
     winner = p.run(eval_genomes, 100)
+    
+    # Save the winner
+    local_dir = os.path.dirname(__file__)
+    model_path = os.path.join(local_dir, 'winner.pkl')
+    with open(model_path, 'wb') as f:
+        pickle.dump(winner, f)
+    print(f"\nWinner saved to {model_path}")
+    print(f"Winner fitness: {winner.fitness}")
+    
+    return winner
 
 if __name__ == '__main__':
     # Find the Config File for Neat, will be in the same folder

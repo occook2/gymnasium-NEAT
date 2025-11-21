@@ -64,5 +64,5 @@ def run(config_file):
 if __name__ == '__main__':
     # Find the Config File for Neat, will be in the same folder
     local_dir = os.path.dirname(__file__)
-    config_path = os.path.join(local_dir, 'mountainCarContConfig.txt')
+    config_path = os.path.join(local_dir, 'config.txt')
     run(config_path)

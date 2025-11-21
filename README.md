@@ -12,41 +12,39 @@ NEAT is a genetic algorithm for evolving artificial neural networks. This projec
 Balance a pole on a moving cart by applying left/right forces.
 - **Inputs**: 4 (cart position, cart velocity, pole angle, pole angular velocity)
 - **Outputs**: 1 (left or right action)
-- **Generations**: 5
 - **Goal**: Keep the pole balanced as long as possible
 
 ### 2. **MountainCar-v0** (`mountainCar.py`)
 Drive an underpowered car up a steep hill using momentum.
 - **Inputs**: 2 (position, velocity)
 - **Outputs**: 1 (push left, no push, or push right)
-- **Generations**: 100
 - **Challenge**: Build momentum by rocking back and forth
 
 ### 3. **MountainCarContinuous-v0** (`mountainCarCont.py`)
 Continuous action space version of the MountainCar problem.
 - **Inputs**: 2 (position, velocity)
 - **Outputs**: 1 (continuous force value)
-- **Generations**: 100
 - **Fitness**: Combines reward with maximum rightward position achieved
 
 ### 4. **Pendulum-v1** (`pendulum.py`)
 Swing up and balance an inverted pendulum.
 - **Inputs**: 3 (cosine of angle, sine of angle, angular velocity)
 - **Outputs**: 1 (continuous torque)
-- **Generations**: 500
 - **Goal**: Keep the pendulum upright with minimal effort
 
 ## 🛠️ Installation
 
 ### Prerequisites
 ```bash
-pip install gymnasium neat-python numpy pandas
+pip install -r requirements.txt
 ```
 
-### Optional (for visualization)
-```bash
-pip install pygame  # For rendering environments
-```
+This will install all required dependencies:
+- `gymnasium` - OpenAI Gym environments
+- `neat-python` - NEAT algorithm implementation
+- `numpy` - Numerical computing
+- `pandas` - Data manipulation
+- `pygame` - Environment rendering (optional)
 
 ## 🚀 Usage
 
@@ -54,16 +52,16 @@ Simply run any of the Python files to watch NEAT evolve solutions in real-time:
 
 ```bash
 # Train on CartPole
-python cartandpole.py
+python cartandpole/cartandpole.py
 
 # Train on MountainCar (discrete)
-python mountainCar.py
+python mountainCar/mountainCar.py
 
 # Train on MountainCar (continuous)
-python mountainCarCont.py
+python mountainCar/mountainCarCont.py
 
 # Train on Pendulum
-python pendulum.py
+python pendulum/pendulum.py
 ```
 
 Each script will:
@@ -77,14 +75,18 @@ Each script will:
 
 ```
 gymnasiumTest/
-├── cartandpole.py              # CartPole implementation
-├── cartandpoleConfig.txt       # NEAT config for CartPole
-├── mountainCar.py              # MountainCar (discrete) implementation
-├── mountainCarConfig.txt       # NEAT config for MountainCar
-├── mountainCarCont.py          # MountainCar (continuous) implementation
-├── mountainCarContConfig.txt   # NEAT config for MountainCar Continuous
-├── pendulum.py                 # Pendulum implementation
-├── pendulum.txt                # NEAT config for Pendulum
+├── cartandpole/
+│   ├── cartandpole.py          # CartPole implementation
+│   └── cartandpoleConfig.txt   # NEAT config for CartPole
+├── mountainCar/
+│   ├── mountainCar.py          # MountainCar (discrete) implementation
+│   ├── mountainCarConfig.txt   # NEAT config for MountainCar
+│   ├── mountainCarCont.py      # MountainCar (continuous) implementation
+│   └── mountainCarContConfig.txt # NEAT config for MountainCar Continuous
+├── pendulum/
+│   ├── pendulum.py             # Pendulum implementation
+│   └── pendulum.txt            # NEAT config for Pendulum
+├── requirements.txt            # Python dependencies
 └── README.md                   # This file
 ```
 
@@ -163,7 +165,3 @@ Feel free to experiment with different:
 ## 📄 License
 
 This project is for educational purposes, demonstrating NEAT algorithm implementation on Gymnasium environments.
-
----
-
-**Watch evolution in action! 🧬🤖**

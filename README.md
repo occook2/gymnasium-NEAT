@@ -34,7 +34,23 @@ Swing up and balance an inverted pendulum.
 
 ## 🛠️ Installation
 
+
 ### Prerequisites
+
+#### 1. Create a Conda Environment
+It is recommended to use a Conda environment for this project to avoid dependency conflicts.
+
+```bash
+# Create a new conda environment named 'neat-env' with Python 3.8 (or your preferred version)
+conda create -n neat-env python=3.8
+
+# Activate the environment
+conda activate neat-env
+```
+
+#### 2. Install Dependencies
+After activating your environment, install the required packages:
+
 ```bash
 pip install -r requirements.txt
 ```
